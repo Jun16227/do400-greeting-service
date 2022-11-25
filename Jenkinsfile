@@ -22,5 +22,21 @@ pipeline{
         }
 
         // Add the "Deploy" stage here
+        stage('Release') {
+           steps {
+                sh '''
+                    oc project ghjmtz-greetings
+                    oc start-build greeting-console --follow --wait
+                '''
+            }    
+        }
+        stage('Deploy') {
+            steps {
+                sh '''
+                    oc project ghjmtz-greetings
+                    oc start-build greeting-service --follow --wait
+                '''
+            }
+        }
     }
 }
